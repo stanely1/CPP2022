@@ -105,7 +105,7 @@ tabbit& tabbit::operator = (tabbit &&tb)
 bool tabbit::operator [] (int i) const
 {
     if(i < 0 || dl <= i) throw std::out_of_range("");
-    return tabbit::ref(*this,i);
+    return (bool)tabbit::ref(*this,i);
 }
 tabbit::ref tabbit::operator [] (int i)
 {
