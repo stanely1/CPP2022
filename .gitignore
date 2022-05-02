@@ -1,4 +1,8 @@
+# executables (no extension files):
+*
+!*.*
+!*/
+
+# other
 *.o
-*.so
-*.a
 *.json
