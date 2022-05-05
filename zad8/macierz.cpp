@@ -31,7 +31,7 @@ wektor & wektor::operator = (const wektor &x)   // przypisanie kopiujące
     if(size != x.size) throw invalid_vector_size("wektory maja rozne rozmiary");
     if(this != &x)
     {
-        // this->~wektor();
+        // this->~wektor();         // nie trzeba, bo mamy staly rozmiar
         // tab = new double[size];
         std::copy(x.tab,x.tab+size,tab);
     }
@@ -152,6 +152,8 @@ macierz::macierz(macierz &&x) : cols(x.cols), rows(x.rows), tab(x.tab)          
 
 macierz::~macierz()
 {
+    if(this->tab == nullptr) return;
+    for(int i = 0; i < rows; i++) delete tab[i];
     delete[] tab;
 }
 
@@ -160,9 +162,9 @@ macierz & macierz::operator = (const macierz &x)     // przypisanie kopiujące
     if(x.cols != cols || x.rows != rows) throw invalid_matrix_size("macierze maja rozne rozmiary");
     if(this != &x)
     {
-        // this->~macierz();
-        // tab = new wektor*[rows];
-        for(int i = 0; i < rows; i++) *tab[i] = *x.tab[i];
+        this->~macierz();
+        tab = new wektor*[rows];
+        for(int i = 0; i < rows; i++) tab[i] = new wektor(*x.tab[i]);
     }
     return *this;
 }
@@ -228,7 +230,7 @@ macierz obliczenia::operator*(const macierz &m, double d)
 }
 macierz obliczenia::operator*(double d, const macierz &m)
 {
-    macierz r(m.rows,m.cols);
+    macierz r(m.rows,m.cols); 
     for(int i = 0; i < r.rows; i++) *r.tab[i] = *m.tab[i] * d;
     return r;
 }
