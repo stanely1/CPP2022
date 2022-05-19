@@ -139,7 +139,8 @@ macierz::macierz(int _rows, int _cols) : rows(_rows), cols(_cols) // wiersz = we
 macierz::macierz(std::initializer_list<wektor> l) : rows(l.size()), cols(l.begin()->get_size())
 {
     tab = new wektor*[rows];
-    for(int i = 0; i < rows; i++) tab[i] = new wektor(l.begin()[i]);
+    auto it = l.begin();
+    for(int i = 0; i < rows; i++, it++) tab[i] = new wektor(*it);
 }
 macierz::macierz(const macierz &x) : cols(x.cols), rows(x.rows), tab(new wektor*[x.rows])  // konstruktor kopiujący
 {
