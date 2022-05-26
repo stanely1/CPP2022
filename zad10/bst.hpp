@@ -2,7 +2,7 @@
 #define BST_HPP
 
 #include <iostream>
-#include <functional>
+// #include <functional>
 
 // traits
 template<class T>
@@ -10,11 +10,21 @@ class increasing_order {
 public:
     bool operator () (T a, T b);
 };
+template <class T>
+class increasing_order<T*> {
+public:
+    bool operator () (T *a, T *b);
+};
 
 template<class T>
 class decreasing_order {
 public:
     bool operator () (T a, T b);
+};
+template<class T>
+class decreasing_order<T*> {
+public:
+    bool operator () (T *a, T *b);
 };
 
 // main class

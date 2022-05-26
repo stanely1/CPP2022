@@ -10,5 +10,8 @@ $(NAME) : $(OBJS)
 %.o : %.cpp $(DEPS)
 	g++ $(CXXFLAGS) -c -o $@ $<
 
+test: spec_test.cpp $(DEPS)
+	g++ $(CXXFLAGS) -o test spec_test.cpp $(LFLAGS)
+
 clean:
-	rm $(NAME) *.o
+	rm $(NAME) *.o test

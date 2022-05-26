@@ -9,11 +9,31 @@ bool increasing_order<T>::operator () (T a, T b)
 {
     return a < b;
 }
+template<class T>
+bool increasing_order<T*>::operator () (T *a, T *b)
+{
+    return *a < *b;
+}
+template<>
+bool increasing_order<const char*>::operator () (const char *a, const char *b)
+{
+    return std::string(a) < std::string(b);
+}
 
 template<class T>
 bool decreasing_order<T>::operator () (T a, T b)
 {
     return a > b;
+}
+template<class T>
+bool decreasing_order<T*>::operator () (T *a, T *b)
+{
+    return *a > *b;
+}
+template<>
+bool decreasing_order<const char*>::operator () (const char *a, const char *b)
+{
+    return std::string(a) > std::string(b);
 }
 
 // node
@@ -104,12 +124,28 @@ void bst<T,C>::iterate_copy(bst<T,C>::node *t)
     iterate_copy(t->left);
     iterate_copy(t->right);
 }
+
+// print - specjalizacja
+template<class T>
+struct print_aux {
+    static void print_elem(std::ostream &os, T &x) {os << x << " ";}
+};
+template<class T>
+struct print_aux<T*> {
+    static void print_elem(std::ostream &os, T *x) {os << *x << " ";}
+};
+template<>
+struct print_aux<const char*> {
+    static void print_elem(std::ostream &os, const char *x) {os << x << " ";}
+};
+
 template<class T, class C>
 void bst<T,C>::iterate_print(std::ostream &os, bst<T,C>::node *t) const
 {
     if(t == nullptr) return;
     iterate_print(os,t->left);
-    os << t->val << " ";
+    //os << t->val << " ";
+    print_aux<T>::print_elem(os, t->val); // trikowe rozwiazanie
     iterate_print(os,t->right);
 }
 
