@@ -21,7 +21,12 @@ int main(int argc, char **argv)
     try {
         wejscie in(argv[1]);
         wyjscie out(argv[2]);
-        int d = std::stoi(argv[3]);
+        int d;
+        try {
+            d = std::stoi(argv[3]);
+        } catch(std::invalid_argument &e) {
+            return std::cerr << "Przesuniecie musi byc liczba calkowita!\n", 1;
+        }
 
         std::string s;
         bool eof = false;
@@ -35,7 +40,6 @@ int main(int argc, char **argv)
                 else throw e;
             }
     } catch(std::ios_base::failure &e) {
-        std::cerr << e.what() << "\n";
-        return 1;
+        return std::cerr << e.what() << "\n", 1;
     }
 }
