@@ -11,4 +11,4 @@ $(NAME) : $(OBJS)
 	g++ $(CXXFLAGS) -c -o $@ $<
 
 clean:
-	rm $(NAME) *.o test
+	rm $(NAME) *.o
